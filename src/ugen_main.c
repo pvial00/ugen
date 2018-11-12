@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
         fread(buf, 1, seedlen, randf);
         fclose(randf);
         ugen(buf, seedlen, password, iterations, passlen);
-	for (int i = 0; i < passlen; i++) {
+        for (int i = 0; i < passlen; i++) {
             printf("%c", password[i]);
-	}
+        }
         printf("\n");
     }
     else {
