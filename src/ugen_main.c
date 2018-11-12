@@ -15,10 +15,10 @@ int main(int argc, char *argv[]) {
     FILE *randf;
     if (argc == 2) {
         int passlen = atoi(argv[1]);
-	if (passlen > maxlen) {
+        if (passlen > maxlen) {
 	    printf("You ask for too much!  Password length exceeded.\n");
 	    exit(1);
-	}
+        }
         char password[passlen];
         randf= fopen("/dev/urandom", "rb");
         fread(buf, 1, seedlen, randf);
