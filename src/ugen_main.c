@@ -1,30 +1,34 @@
-#include "ugen.c"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 void usage() {
-    printf("ugen v0.1 by KryptoMagik\n");
+    printf("ugen v0.2 by KryptoMagik\n");
     printf("------------------------\n\n");
     printf("ugen <password length>\n");
 }
 
 int main(int argc, char *argv[]) {
-    int iterations = 10000;
-    int seedlen = 16;
-    int maxlen = 1000000;
-    unsigned char *seed[seedlen];
-    unsigned char buf[seedlen];
     FILE *randf;
+    int stop = 0;
+    unsigned char buf;
+    int i = 0;
     if (argc == 2) {
         int passlen = atoi(argv[1]);
-        if (passlen > maxlen) {
-	    printf("You ask for too much!  Password length exceeded.\n");
-	    exit(1);
-        }
         char password[passlen];
-        randf= fopen("/dev/urandom", "rb");
-        fread(buf, 1, seedlen, randf);
+        randf = fopen("/dev/urandom", "rb");
+	while (stop != 1) {
+            fread(&buf, 1, 1, randf);
+	    if (((int)buf >= 32) && ((int)buf <= 126)) {
+	        password[i] = (char)buf;
+		i += 1;
+		if (i == passlen) {
+		    stop = 1;
+		}
+	    }
+	}
         fclose(randf);
-        ugen(buf, seedlen, password, iterations, passlen);
-        for (int i = 0; i < passlen; i++) {
+        for (i = 0; i < passlen; i++) {
             printf("%c", password[i]);
         }
         printf("\n");
