@@ -11,10 +11,15 @@ void usage() {
 int main(int argc, char *argv[]) {
     FILE *randf;
     int stop = 0;
+    int maxlen = 1000000;
     unsigned char buf;
     int i = 0;
     if (argc == 2) {
         int passlen = atoi(argv[1]);
+	if (passlen > maxlen) {
+            printf("You ask for too much!  Max password length exceeded.\n");
+	    exit(1);
+	}
         char password[passlen];
         randf = fopen("/dev/urandom", "rb");
 	while (stop != 1) {
